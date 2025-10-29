@@ -51,7 +51,8 @@ public class SubjectRecognitionService {
                         let context = CIContext()
                         if let cgImage = context.createCGImage(ciImage, from: ciImage.extent) {
                             let uiImage = UIImage(cgImage: cgImage)
-                            subjects.append((uiImage, Double(observation.confidence), observation.boundingBox))
+                            // VNInstanceMaskObservation 没有 boundingBox,使用图片范围
+                            subjects.append((uiImage, Double(observation.confidence), ciImage.extent))
                         }
                     } catch {
                         print("警告: 生成主体图像失败 - \(error)")
